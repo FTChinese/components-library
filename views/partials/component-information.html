@@ -1,0 +1,24 @@
+<section class="component-detail__section" id="more-information">
+	<h2>Component information</h2>
+	<dl class="component-detail__information">
+		<dt>This version</dt>
+		<dd>{{ tagName }}</dd>
+
+		<dt>Dependencies</dt>
+		<dd>
+			{% if dependencies %}
+				<table class="component-details__dependencies">
+					{% for name, version in dependencies %}
+						<tr>
+							<td>{{ name }}</td>
+							<td><span class="version-number">{{ version }}</span></td>
+						</tr>
+					{% endfor %}					
+				</table>
+			{% else %}
+				<span>None</span>
+			{% endif %}
+		</dd>
+	</dl>
+	
+</section>

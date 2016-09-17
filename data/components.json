@@ -1,0 +1,53 @@
+{
+    "components": [
+        {
+            "moduleName": "ftc-footer",
+            "tagName": "0.0.2",
+            "repoHomeUrl": "https://github.com/FTChinese/ftc-footer",
+            "keywords": [
+                "FTC",
+                "footer"
+            ],
+            "hasCss": true,
+            "hasJs": false,
+            "dependencies": {
+                "o-colors": "^3.5.2",
+                "o-grid": "^4.2.2"
+            },
+            "description": "Responsive FTC page footer",
+            "origamiType": "module",
+            "origamiCategory": "components",
+            "origamiVersion": 1,
+            "support": "https://github.com/FTChinese/ftc-footer/issues",
+            "supportStatus": "active",
+            "browserFeatures": {
+                "required": [
+                    "html5"
+                ]
+            },
+            "demosDefaults": {
+                "sass": "demos/src/demo.scss"
+            },
+            "demos": [
+                {
+                    "name": "footer",
+                    "template": "demos/src/footer.html",
+                    "data": "lib/data.js",
+                    "description": ""
+                },
+                {
+                    "name": "footer-light",
+                    "template": "demos/src/footer-light.html",
+                    "data": "lib/data.js",
+                    "description": ""
+                },
+                {
+                    "name": "simple-footer",
+                    "template": "demos/src/simple-footer.html",
+                    "data": "lib/data.js",
+                    "description": ""
+                }
+            ]
+        }
+    ]
+}

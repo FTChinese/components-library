@@ -1,0 +1,22 @@
+<div class="demo">
+	<header class="demo__header">
+		<h2 class="demo__title">
+			<span class="js-activity">
+			{% if demo.title %}
+				{{ demo.title }}
+			{% else %}
+				{{ demo.name }}
+			{% endif %}
+			</span>
+		</h2>
+	</header>
+	<div class="demo__navigation">
+		<div class="demo__external-links">
+			<span>Open in:</span>
+			<a href="/demos/{{ moduleName }}/{{demo.name}}.html" target="_blank">New Tab</a>
+		</div>
+	</div>
+	<div class="demo__frame-container">
+		<iframe src="/demos/{{ moduleName }}/{{demo.name}}.html" class="demo__frame" allowtransparency="true" scrolling="no"></iframe>
+	</div>
+</div>

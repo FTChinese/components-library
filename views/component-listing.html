@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="o-registry-container">
+	<div class="component-list__main">
+		<h1>FTC Component Library</h1>
+		<table class="component-list">
+			<thead>
+				<tr>
+					<th>Component</th><th>Version</th><th>Status</th><th>Updated</th>
+				</tr>
+			</thead>
+			<tbody class="component-group">
+				{% for component in components %}
+				<tr class="component-list__component">
+					<td>
+						<a href="{{component.moduleName}}.html">
+							<span class="component-list__component-name">
+								{{component.moduleName}}
+							</span>
+						</a>
+						{% if component.hasCss %}
+							<span class="label-css">CSS</span>
+						{% endif %}
+						{% if component.hasJs %}
+							<span class="label-js">JS</span>
+						{% endif %}
+					</td>
+					<td class="u-nowrap">
+						<span class="version-number">
+							{{ component.tagName}}
+						</span>
+					</td>
+					<td>
+						<span class="label-{{component.supportStatus}}">{{component.supportStatus | capitalize}}</span>
+					</td>
+					<td class="component-list__component-updated u-nowrap u-hide-on-mobile">
+						<time></time>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+	<div class="component-list__sidebar">
+		<div class="o-registry-section o-registry-section--highlight">
+			<h2>API</h2>
+			<p>Some of the modules listed in the FTC components library depends on <a href="http://registry.origami.ft.com/components">FT Origami</a>.
+			To specify the Origami components library as your source for Bower components so that dependencies coulde be downloaded, create a <code>.bowerrc</code> file in your home directory or the root of your project's working tree, with the following content:</p>
+			<pre><code class="lang-json">{
+  "registry": {
+    "search": [
+      "http://{{SERVER.HTTP_HOST}}",
+      "https://bower.herokuapp.com"
+    ]
+  }
+}</code></pre>
+		</div>
+	</div>
+</div>
+{% endblock %}

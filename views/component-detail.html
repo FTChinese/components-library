@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="component-detail">
+	<nav class="sidebar sidebar--has-scroll u-hide-on-mobile">
+		<iframe src="nav.html"></iframe>
+	</nav>
+	<div class="component-detail__header">
+		<div class="component-detail__description">
+			<h1>{{ moduleName }}</h1>
+			{% if hasCss %}
+			<span class="label-css">CSS</span>
+			{% endif %}
+			{% if hasJs %}
+			<span class="label-js">JS</span>
+			{% endif %}
+			<p>{{description}}</p>
+		</div>
+	</div>
+
+	<div class="component-detail__info">
+		<section class="component-detail__section" id="section-usage">
+			<a href="{{ repoHomeUrl }}" class="o-buttons o-buttons--big o-registry__github-button" target="_blank">View on GitHub</a>
+			<ul class="docs-navigation">
+				<li><a href="#more-information">Component information</a></li>
+			</ul>
+			<div class="component-detail__section component-detail__section--highlight">
+				{% include "partials/getting-started.html" %}
+			</div>
+		</section>
+		
+	</div>
+
+	<div class="component-detail__main">
+		{% if demos %}		
+			<section class="component-detail__section" id="section-demos">
+				{% for demo in demos %}
+					{% include "partials/demo.html" %}
+				{% endfor %}
+			</section>
+		{% endif %}
+
+		{% include "partials/component-information.html" %}
+	</div>
+
+</div>
+<script type="text/javascript" src="scripts/main.js"></script>
+<script type="text/javascript" src="/api/resize-iframe.js"></script>
+{% endblock %}

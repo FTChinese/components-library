@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+<ul class="component-navigation__list">
+	<li class="component-navigation__item">
+		<h3 class="component-navigation__title">Conponent List</h3>
+	</li>
+	{% for component in components %}
+	<li class="component-navigation__item">
+		<a href="{{ component.moduleName }}.html">
+			{{ component.moduleName }}
+		</a>
+	</li>
+	{% endfor %}
+</ul>
+{% endblock %}
+

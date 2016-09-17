@@ -1,0 +1,28 @@
+a.o-registry__github-button {
+	@include oButtons;
+	@include oButtonsSize(big);
+	@include oButtonsTheme(standout);
+	width: 100%;
+	margin-bottom: 15px;
+	color: #fff;
+	text-transform: none;
+
+	&:hover {
+		// color: oColorsGetColorFor(o-buttons-standout-normal, text);
+		background-color: lighten(oColorsGetColorFor(o-buttons-standout-normal, background), 3.7%);
+		border-color: oColorsGetColorFor(o-buttons-standout-hover, border);
+	}
+	&:before {
+		content: '';
+		display: inline-block;
+		
+		background-image: url('../images/GitHub-Mark-Light-32px.png');
+		width: 20px;
+		height: 20px;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: 50%;
+		background-color: transparent;
+		vertical-align: middle;	
+	}
+}

@@ -1,0 +1,51 @@
+{
+  "name": "ftc-components",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postversion": "git push && git push --tags"
+  },
+  "keywords": [
+    "FTC",
+    "components"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FTChinese/ftc-components.git"
+  },
+  "author": "weiguo.ni",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FTChinese/ftc-components/issues"
+  },
+  "homepage": "https://github.com/FTChinese/ftc-components",
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
+    "bower-webpack-plugin": "^0.1.9",
+    "browser-sync": "^2.15.0",
+    "co": "^4.6.0",
+    "del": "^2.2.2",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-changed": "^1.3.2",
+    "gulp-eslint": "^3.0.1",
+    "gulp-imagemin": "^3.0.3",
+    "gulp-load-plugins": "^1.3.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-postcss": "^6.2.0",
+    "gulp-sass": "^2.3.2",
+    "gulp-size": "^2.1.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-util": "^3.0.7",
+    "is-there": "^4.3.3",
+    "nunjucks": "^2.5.0",
+    "postcss-cssnext": "^2.8.0",
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1",
+    "string-to-stream": "^1.1.0",
+    "webpack": "^1.13.2"
+  }
+}
