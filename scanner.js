@@ -1,10 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-const request = require('request');
+const isThere = require('is-there');
 const co = require('co');
+const mkdirp = require('mkdirp');
 const str = require('string-to-stream');
+
 const helper = require('./helper');
+
+const request = require('request');
 
 const baseUrl = 'https://raw.githubusercontent.com/FTChinese';
 
@@ -15,6 +19,7 @@ const jsonFiles = [
 ];
 
 const moduleNames = [
+	'ftc-share',
 	'ftc-footer'
 ];
 
@@ -64,6 +69,13 @@ function buildData(npm, bower, origami) {
 }
 
 co(function *() {
+	const destDir = '.tmp';
+
+    if (!isThere(destDir)) {
+      mkdirp(destDir, (err) => {
+        if (err) console.log(err);
+      });
+    }
 
 	for (let i = 0; i < moduleNames.length; i++) {
 		const moduleName = moduleNames[i];

@@ -7,6 +7,7 @@ const str = require('string-to-stream');
 const helper = require('./helper');
 
 const moduleNames = [
+	'ftc-share',
 	'ftc-footer'
 ];
 
@@ -31,7 +32,7 @@ co(function *() {
 		.pipe(fs.createWriteStream('.tmp/index.html'));
 	str(nav)
 		.pipe(fs.createWriteStream('.tmp/nav.html'));
-	str(JSON.stringify(context, null, 4))
+	str(JSON.stringify(components, null, 4))
 		.pipe(fs.createWriteStream('data/components.json'));
 })
 .then(function() {
