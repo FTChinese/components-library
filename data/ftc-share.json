@@ -1,0 +1,93 @@
+{
+    "moduleName": "ftc-share",
+    "tagName": "0.0.1",
+    "repoHomeUrl": "https://github.com/FTChinese/ftc-share",
+    "keywords": [
+        "FTC",
+        "share"
+    ],
+    "hasCss": true,
+    "hasJs": true,
+    "dependencies": {
+        "ftc-icons": "^2.0.2",
+        "o-colors": "^3.5.2"
+    },
+    "description": "Share module",
+    "origamiType": "module",
+    "origamiCategory": "components",
+    "origamiVersion": 1,
+    "support": "https://github.com/FTChinese/ftc-share/issues",
+    "supportStatus": "active",
+    "browserFeatures": {
+        "required": [
+            "document.queryselector",
+            "Element.prototype.closest"
+        ],
+        "optional": []
+    },
+    "demosDefaults": {
+        "sass": "demos/src/demo.scss",
+        "js": "demos/src/demo.js"
+    },
+    "demos": [
+        {
+            "name": "share",
+            "template": "demos/src/share.html",
+            "data": "demos/src/data.json",
+            "description": "default theme"
+        },
+        {
+            "name": "share-dark",
+            "template": "demos/src/share-js.html",
+            "theme": "theme-dark",
+            "data": "demos/src/data.json",
+            "description": "dark theme"
+        },
+        {
+            "name": "share-light",
+            "template": "demos/src/share-js.html",
+            "theme": "theme-light",
+            "data": "demos/src/data.json",
+            "description": "light theme"
+        },
+        {
+            "name": "share-tint",
+            "template": "demos/src/share-js.html",
+            "theme": "theme-tint",
+            "data": "demos/src/data.json",
+            "description": "tint theme"
+        },
+        {
+            "name": "svg-symbol",
+            "template": "demos/src/share.html",
+            "svgSymbol": true,
+            "theme": "symbol-default",
+            "data": "demos/src/data.json",
+            "description": "use svg symbol as icon image"
+        },
+        {
+            "name": "svg-symbol-light",
+            "template": "demos/src/share.html",
+            "svgSymbol": true,
+            "theme": "symbol-light",
+            "data": "demos/src/data.json",
+            "description": "use svg symbol as icon image"
+        },
+        {
+            "name": "svg-symbol-dark",
+            "template": "demos/src/share.html",
+            "svgSymbol": true,
+            "theme": "symbol-dark",
+            "data": "demos/src/data.json",
+            "description": "use svg symbol as icon image"
+        },
+        {
+            "name": "svg-symbol-tint",
+            "template": "demos/src/share.html",
+            "svgSymbol": true,
+            "theme": "symbol-tint",
+            "data": "demos/src/data.json",
+            "description": "use svg symbol as icon image"
+        }
+    ]
+}
