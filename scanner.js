@@ -70,6 +70,7 @@ function buildData(npm, bower, origami) {
 
 co(function *() {
 	const destDir = '.tmp';
+	const components = [];
 
     if (!isThere(destDir)) {
       mkdirp(destDir, (err) => {
@@ -89,16 +90,15 @@ co(function *() {
 			const context = buildData(npm, bower, origami);
 			console.log(context);
 
+			components.push(context);
+
 			str(JSON.stringify(context, null, 4))
-				.pipe(fs.createWriteStream('data/' + moduleName + '.json'))
-
-			const result = yield helper.render('component-detail.html', context);
-
-			str(result)
-				.pipe(fs.createWriteStream('.tmp/' + moduleName + '.html'));
+				.pipe(fs.createWriteStream('data/' + moduleName + '.json'));
 
 		} catch (err) {
 			console.log(err.stack);
 		}		
 	}
+	str(JSON.stringify(components, null, 4))
+		.pipe(fs.createWriteStream('data/components.json'));
 });
