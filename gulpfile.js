@@ -46,18 +46,24 @@ gulp.task('html', () => {
       helper.readJson('data/ftc-footer.json')
       ]);
 
-    const [listResult, navResult, detailResult] = yield Promise.all([
+    const [listResult, navResult] = yield Promise.all([
       helper.render('component-listing.html', {components: components}),
-      helper.render('component-nav.html', {components: components}),
-      helper.render('component-detail.html', ftcFooter)
+      helper.render('component-nav.html', {components: components})
     ]);
 
     str(listResult)
       .pipe(fs.createWriteStream('.tmp/index.html'));
     str(navResult)
       .pipe(fs.createWriteStream('.tmp/nav.html'));
-    str(detailResult)
-      .pipe(fs.createWriteStream('.tmp/ftc-footer.html'));
+
+    const rendered = yield Promise.all(components.map(function(context, i) {
+      return helper.render('component-detail.html', context);
+    }));
+
+    components.forEach(function(component, i) {
+      str(rendered[i])
+        .pipe(fs.createWriteStream('.tmp/' + component.moduleName + '.html'));
+    });
   })
   .then(function(){
     browserSync.reload('*.html');
