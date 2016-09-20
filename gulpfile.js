@@ -156,7 +156,7 @@ gulp.task('serve',
   })
 );
 
-gulp.task('build', gulp.series('prod', 'clean', gulp.parallel('styles', 'webpack'), 'dev'));
+gulp.task('build', gulp.series('prod', 'clean', gulp.parallel('html', 'styles', 'webpack'), 'dev'));
 
 const deployDir = '../ft-interact/'
 gulp.task('deploy:assets', () => {
