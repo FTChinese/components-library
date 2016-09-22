@@ -19,6 +19,7 @@ const jsonFiles = [
 ];
 
 const moduleNames = [
+	'ftc-icons',
 	'ftc-share',
 	'ftc-footer'
 ];
