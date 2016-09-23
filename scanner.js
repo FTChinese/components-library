@@ -11,20 +11,30 @@ const moduleNames = require('./module-list.json');
 
 const request = require('request');
 
-const baseUrl = 'https://raw.githubusercontent.com/FTChinese';
+// `https://raw.githubusercontent.com/FTChinese/${ftc-share}/master/${origami}.json`
+// const baseUrl = 'https://raw.githubusercontent.com/FTChinese';
+// `https://api.github.com/repos/FTChinese/${moduleName}/tags`
+// const tagsUrl = 'https://api.github.com/repos/FTChinese/ftc-share/tags'
 
 const jsonFiles = [
-	'master/package.json',
-	'master/bower.json',
-	'master/origami.json'
+	'package',
+	'bower',
+	'origami'
 ];
 
-const moduleNames = [
-	'ftc-icons',
-	'ftc-share',
-	'ftc-footer'
-];
+// const moduleNames = [
+// 	'ftc-icons',
+// 	'ftc-share',
+// 	'ftc-footer'
+// ];
 
+function jsonUrl(moduleName, fileName) {
+	return `https://raw.githubusercontent.com/FTChinese/${moduleName}/master/${fileName}.json`
+}
+
+function tagsUrl(moduleName) {
+	return `https://api.github.com/repos/FTChinese/${moduleName}/tags`;
+}
 function buildUrl(moduleName) {
 	const jsonUrls = jsonFiles.map(function(json) {
 		return url.resolve(baseUrl, path.join('FTChinese', moduleName, json));
@@ -52,11 +62,15 @@ function fetchJson(url) {
 	});
 }
 
-function buildData(npm, bower, origami) {
+function buildData(npm, bower, origami, tags) {
 	var context = {};
 
 	context.moduleName = npm.name;
 	context.tagName = npm.version;
+	context.versions = tags.map((tag) => {
+		return tag.name
+	});
+
 	context.repoHomeUrl = npm.homepage;
 	context.keywords = npm.keywords;
 	context.hasCss = bower.main.indexOf('main.scss') !== -1;
@@ -82,25 +96,38 @@ co(function *() {
 
 	for (let i = 0; i < moduleNames.length; i++) {
 		const moduleName = moduleNames[i];
-		const urls = buildUrl(moduleName);
+		// const urls = buildUrl(moduleName);
+		const urls = jsonFiles.map((fileName) => {
+			return jsonUrl(moduleName, fileName);
+		});
+
+		urls.push(tagsUrl(moduleName));
+
 		console.log('fetching url...');
 		console.log(urls);
 		try {
+			const req = urls.map((url) => {
+				return fetchJson(url);
+			});
+			console.log(req);
+			const result = yield fetchJson('https://api.github.com/repos/FTChinese/ftc-footer/tags');
+			console.log(result);
+			// const /*[npm, bower, origami, tags]*/result = yield Promise.all();
 
-			const [npm, bower, origami] = yield Promise.all(urls.map(fetchJson));
 
-			const context = buildData(npm, bower, origami);
-			console.log(context);
+			// const context = buildData(npm, bower, origami, tags);
+			// // console.log(context);
 
-			components.push(context);
+			// components.push(context);
 
-			str(JSON.stringify(context, null, 4))
-				.pipe(fs.createWriteStream('data/' + moduleName + '.json'));
+			// str(JSON.stringify(context, null, 4))
+			// 	.pipe(fs.createWriteStream(`data/${moduleName}.json`));
 
 		} catch (err) {
 			console.log(err.stack);
 		}		
 	}
-	str(JSON.stringify(components, null, 4))
-		.pipe(fs.createWriteStream('data/components.json'));
+
+	// str(JSON.stringify(components, null, 4))
+	// 	.pipe(fs.createWriteStream('data/components.json'));
 });
