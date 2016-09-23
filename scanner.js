@@ -1,28 +1,27 @@
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-const request = require('request');
+const request = require('request-promise-native');
 const co = require('co');
 const str = require('string-to-stream');
 const helper = require('./helper');
 
-const baseUrl = 'https://raw.githubusercontent.com/FTChinese';
-
-const jsonFiles = [
-	'master/package.json',
-	'master/bower.json',
-	'master/origami.json'
+const manifests = [
+	'package',
+	'bower',
+	'origami'
 ];
 
 const moduleNames = [
 	'ftc-footer'
 ];
 
-function buildUrl(moduleName) {
-	const jsonUrls = jsonFiles.map(function(json) {
-		return url.resolve(baseUrl, path.join('FTChinese', moduleName, json));
+function buildUrls(module) {
+	const targetUrls = manifests.map(function(package) {
+		return `https://raw.githubusercontent.com/FTChinese/${module}/master/${package}.json`;
 	});
-	return jsonUrls	
+	targetUrls.push(`https://api.github.com/repos/FTChinese/${module}/tags`);
+	return targetUrls;
 }
 
 function buildPath() {
@@ -67,26 +66,51 @@ co(function *() {
 
 	for (let i = 0; i < moduleNames.length; i++) {
 		const moduleName = moduleNames[i];
-		const urls = buildUrl(moduleName);
-		console.log('fetching url...');
-		console.log(urls);
+		const targetUrls = buildUrls(moduleName);
+		console.log('fetching url:');
+		console.log(targetUrls);
+// https://developer.github.com/v3/#user-agent-required
+// All API requests MUST include a valid User-Agent header.
+// Requests with no User-Agent header will be rejected.
+// We request that you use your GitHub username,
+// or the name of your application, for the User-Agent header value.
+// This allows us to contact you if there are problems.
+		const options = targetUrls.map((url) => {
+			return {
+				url: url,
+				headers: {
+					'User-Agent': 'ftc-component'
+				}
+			}
+		});
+		console.log(options);
 		try {
-
-			const [npm, bower, origami] = yield Promise.all(urls.map(fetchJson));
-
-			const context = buildData(npm, bower, origami);
-			console.log(context);
-
-			str(JSON.stringify(context, null, 4))
-				.pipe(fs.createWriteStream('data/' + moduleName + '.json'))
-
-			const result = yield helper.render('component-detail.html', context);
-
-			str(result)
-				.pipe(fs.createWriteStream('.tmp/' + moduleName + '.html'));
+			// request({
+			// 	url: 'https://raw.githubusercontent.com/FTChinese/ftc-footer/master/origami.json',
+    	// 	headers: {
+			// 		'User-Agent': 'ftc-component'
+			// 	}
+			// })
+			// .then((value) => {
+			// 	console.log(value);
+			// });
+			var requestData = yield Promise.all(options.map(request));
+			requestData = requestData.map(JSON.parse);
+			console.log(requestData);
+			//
+			// const context = buildData(npm, bower, origami);
+			// console.log(context);
+			//
+			// str(JSON.stringify(context, null, 4))
+			// 	.pipe(fs.createWriteStream('data/' + moduleName + '.json'))
+			//
+			// const result = yield helper.render('component-detail.html', context);
+			//
+			// str(result)
+			// 	.pipe(fs.createWriteStream('.tmp/' + moduleName + '.html'));
 
 		} catch (err) {
 			console.log(err.stack);
-		}		
+		}
 	}
 });

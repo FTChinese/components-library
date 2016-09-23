@@ -45,6 +45,7 @@
     "postcss-cssnext": "^2.8.0",
     "request": "^2.74.0",
     "request-promise": "^4.1.1",
+    "request-promise-native": "^1.0.3",
     "string-to-stream": "^1.1.0",
     "webpack": "^1.13.2"
   }
