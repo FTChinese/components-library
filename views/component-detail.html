@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block body %}
 <div class="component-detail">
-	<nav class="sidebar sidebar--has-scroll u-hide-on-mobile">
-		<iframe src="nav.html"></iframe>
-	</nav>
+	{% include "partials/component-nav.html" %}
+	
 	<div class="component-detail__header">
 		<div class="component-detail__description">
 			<h1>{{ moduleName }}</h1>

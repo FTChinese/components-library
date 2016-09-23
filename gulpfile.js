@@ -17,6 +17,8 @@ const $ = require('gulp-load-plugins')();
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 
+const components = require('./data/components.json');
+
 const projectName = 'components';
 process.env.NODE_ENV = 'dev';
 
@@ -40,24 +42,34 @@ gulp.task('html', () => {
         if (err) console.log(err);
       });
     }
+// get all components data
+    // const components = yield helper.readJson('data/components.json');
 
-    const [components, ftcFooter] = yield Promise.all([
-      helper.readJson('data/components.json'),
-      helper.readJson('data/ftc-footer.json')
-      ]);
-
-    const [listResult, navResult, detailResult] = yield Promise.all([
+// render `component-listing.html` as homepage. `component-nav.html` as partials.
+    const [listResult, navResult] = yield Promise.all([
       helper.render('component-listing.html', {components: components}),
-      helper.render('component-nav.html', {components: components}),
-      helper.render('component-detail.html', ftcFooter)
+      helper.render('component-nav.html', {components: components})
     ]);
 
+// put rendered `component-nav.html` as partial to be included.
+// must write the file before executing next step.
+// stream cannot be used here since stream write data asynchronously.
+// writeResult is not usefull. It's `0`, only indicating no problem occurred.
+    const writeResult = yield helper.writeFile('views/partials/component-nav.html', navResult);
+
+// write `component-listing` as `index.html`
     str(listResult)
       .pipe(fs.createWriteStream('.tmp/index.html'));
-    str(navResult)
-      .pipe(fs.createWriteStream('.tmp/nav.html'));
-    str(detailResult)
-      .pipe(fs.createWriteStream('.tmp/ftc-footer.html'));
+
+    const details = yield Promise.all(components.map(function(context, i) {
+      return helper.render('component-detail.html', context);
+    }));
+
+// output each detail page.
+    components.forEach(function(component, i) {
+      str(details[i])
+        .pipe(fs.createWriteStream('.tmp/' + component.moduleName + '.html'));
+    });
   })
   .then(function(){
     browserSync.reload('*.html');
@@ -150,7 +162,7 @@ gulp.task('serve',
   })
 );
 
-gulp.task('build', gulp.series('prod', 'clean', gulp.parallel('styles', 'webpack'), 'dev'));
+gulp.task('build', gulp.series('prod', 'clean', gulp.parallel('html', 'styles', 'webpack'), 'dev'));
 
 const deployDir = '../ft-interact/'
 gulp.task('deploy:assets', () => {

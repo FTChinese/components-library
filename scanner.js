@@ -2,25 +2,32 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const request = require('request-promise-native');
+const isThere = require('is-there');
 const co = require('co');
+const mkdirp = require('mkdirp');
 const str = require('string-to-stream');
+
 const helper = require('./helper');
+const moduleNames = require('./module-list.json');
 
 const manifests = [
+// `https://raw.githubusercontent.com/FTChinese/${ftc-share}/master/${origami}.json`
+// const baseUrl = 'https://raw.githubusercontent.com/FTChinese';
+// `https://api.github.com/repos/FTChinese/${moduleName}/tags`
+// const tagsUrl = 'https://api.github.com/repos/FTChinese/ftc-share/tags'
+
 	'package',
 	'bower',
 	'origami'
 ];
 
-const moduleNames = [
-	'ftc-footer'
-];
 
 function buildUrls(module) {
 	const targetUrls = manifests.map(function(package) {
 		return `https://raw.githubusercontent.com/FTChinese/${module}/master/${package}.json`;
-	});
+
 	targetUrls.push(`https://api.github.com/repos/FTChinese/${module}/tags`);
+
 	return targetUrls;
 }
 
@@ -30,25 +37,15 @@ function buildPath() {
 	});
 }
 
-function fetchJson(url) {
-	return new Promise(function(resolve, reject) {
-		request(url, function(error, response, body) {
-			if (error) {
-				reject(error)
-			} else if (response.statusCode !== 200) {
-				reject(response.statusCode);
-			} else {
-				resolve(JSON.parse(body));
-			}
-		});
-	});
-}
-
-function buildData(npm, bower, origami) {
+function buildData(npm, bower, origami, tags) {
 	var context = {};
 
 	context.moduleName = npm.name;
 	context.tagName = npm.version;
+	context.versions = tags.map((tag) => {
+		return tag.name
+	});
+
 	context.repoHomeUrl = npm.homepage;
 	context.keywords = npm.keywords;
 	context.hasCss = bower.main.indexOf('main.scss') !== -1;
@@ -63,6 +60,14 @@ function buildData(npm, bower, origami) {
 }
 
 co(function *() {
+	const destDir = '.tmp';
+	const components = [];
+
+    if (!isThere(destDir)) {
+      mkdirp(destDir, (err) => {
+        if (err) console.log(err);
+      });
+    }
 
 	for (let i = 0; i < moduleNames.length; i++) {
 		const moduleName = moduleNames[i];
@@ -84,25 +89,34 @@ co(function *() {
 			}
 		});
 		console.log(options);
+
 		try {
+			const req = urls.map((url) => {
+				return fetchJson(url);
+			});
+			console.log(req);
+			const result = yield fetchJson('https://api.github.com/repos/FTChinese/ftc-footer/tags');
+			console.log(result);
 
 			var requestData = yield Promise.all(options.map(request));
 			requestData = requestData.map(JSON.parse);
 			console.log(requestData);
-			
+
 			const context = buildData(npm, bower, origami);
 			console.log(context);
 
-			str(JSON.stringify(context, null, 4))
-				.pipe(fs.createWriteStream('data/' + moduleName + '.json'))
+			// const context = buildData(npm, bower, origami, tags);
+			// // console.log(context);
 
-			const result = yield helper.render('component-detail.html', context);
+			// components.push(context);
 
-			str(result)
-				.pipe(fs.createWriteStream('.tmp/' + moduleName + '.html'));
+			// str(JSON.stringify(context, null, 4))
+			// 	.pipe(fs.createWriteStream(`data/${moduleName}.json`));
 
 		} catch (err) {
 			console.log(err.stack);
 		}
 	}
+	str(JSON.stringify(components, null, 4))
+		.pipe(fs.createWriteStream('data/components.json'));
 });

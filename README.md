@@ -1,8 +1,10 @@
-# ftc-components
+## Add a module to scan
 
+Add the entry in `module-list.json`.
+
+## Steps to taken
 ```
-gulp build
 node scanner.js
-node scan-dir.js
+gulp build
 gulp deploy
 ```
