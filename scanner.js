@@ -85,29 +85,21 @@ co(function *() {
 		});
 		console.log(options);
 		try {
-			// request({
-			// 	url: 'https://raw.githubusercontent.com/FTChinese/ftc-footer/master/origami.json',
-    	// 	headers: {
-			// 		'User-Agent': 'ftc-component'
-			// 	}
-			// })
-			// .then((value) => {
-			// 	console.log(value);
-			// });
+
 			var requestData = yield Promise.all(options.map(request));
 			requestData = requestData.map(JSON.parse);
 			console.log(requestData);
-			//
-			// const context = buildData(npm, bower, origami);
-			// console.log(context);
-			//
-			// str(JSON.stringify(context, null, 4))
-			// 	.pipe(fs.createWriteStream('data/' + moduleName + '.json'))
-			//
-			// const result = yield helper.render('component-detail.html', context);
-			//
-			// str(result)
-			// 	.pipe(fs.createWriteStream('.tmp/' + moduleName + '.html'));
+			
+			const context = buildData(npm, bower, origami);
+			console.log(context);
+
+			str(JSON.stringify(context, null, 4))
+				.pipe(fs.createWriteStream('data/' + moduleName + '.json'))
+
+			const result = yield helper.render('component-detail.html', context);
+
+			str(result)
+				.pipe(fs.createWriteStream('.tmp/' + moduleName + '.html'));
 
 		} catch (err) {
 			console.log(err.stack);
