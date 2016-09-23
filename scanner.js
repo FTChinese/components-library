@@ -7,6 +7,7 @@ const mkdirp = require('mkdirp');
 const str = require('string-to-stream');
 
 const helper = require('./helper');
+const moduleNames = require('./module-list.json');
 
 const request = require('request');
 

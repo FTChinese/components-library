@@ -52,6 +52,18 @@ function readFile(filename) {
   );
 }
 
+function writeFile(file, data) {
+  return new Promise(function(resolve, reject) {
+    fs.writeFile(file, data, 'utf8', function(err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(0);
+      }
+    });
+  });
+}
+
 function readDir(path) {
   return new Promise(function(resolve, reject) {
     fs.readdir(path, 'utf8', function(err, files) {
@@ -68,5 +80,6 @@ module.exports = {
   readJson: readJson,
   readFile: readFile,
   readDir: readDir,
-  render: render
+  render: render,
+  writeFile: writeFile
 };
