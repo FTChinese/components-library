@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const request = require('request-promise-native');
-const isThere = require('is-there');
 const co = require('co');
 const mkdirp = require('mkdirp');
 const str = require('string-to-stream');
@@ -15,14 +14,56 @@ const manifests = [
 	'origami'
 ];
 
-// const contents = `https://api.github.com/repos/FTChinese/${module}/contents/${manifest}.json`
+moduleNames.forEach((moduleName) => {
+	co(function *() {
+		// const moduleName = 'ftc-share';
+		const targetUrls = buildUrls(moduleName);
+		const moduleData = {
+			moduleName: moduleName,
+			keywords: moduleName,
+			repoHomeUrl: repoHomeUrl(moduleName),
+			isStable: true,
+		}
+		console.log(targetUrls);
 
-// [refTag.ref]
-// reverse array
-// replace `refs/tags/v`
-// check `alpha`, `beta`
-// refTag.object.url -> tagger.date
-// const refTags = `https://api.github.com/repos/FTChinese/${module}/git/refs/tags`;
+		const options = targetUrls.map(requestOptions);
+
+		var requestData = yield Promise.all(options.map(request));
+		var [contentBower, contentOrigami, refTags] = requestData.map(JSON.parse);
+		const bower = decodeContent(contentBower);
+		const origami = decodeContent(contentOrigami);
+
+		const extracted = extractBower(bower);
+
+		const versions = getVersions(refTags);
+
+
+		const latest = getLatestStable(versions);
+		moduleData.tagName = latest.tagName;
+
+		console.log('requesting: ', latest.tagUrl);
+		const latestVersionData = yield request(requestOptions(latest.tagUrl));
+
+		const datetimeCreated = JSON.parse(latestVersionData).tagger.date;
+		moduleData.datetimeCreated = datetimeCreated;
+
+		moduleData.versions = versions.map((version) => {
+			return version.tagName;
+		});
+
+		Object.assign(moduleData, extracted, origami);
+		console.log(moduleData);
+
+		str(JSON.stringify(moduleData, null, 4))
+			.pipe(fs.createWriteStream(`data/${moduleName}.json`));
+	})
+	.then(() => {
+		console.log('done');
+	}, (e) => {
+		console.error(e.stack);
+	});
+
+});
 
 function buildUrls(module) {
 	const targetUrls = manifests.map(function(manifest) {
@@ -96,54 +137,3 @@ function getLatestStable(versions) {
 		tagUrl: tagUrl
 	}
 }
-
-moduleNames.forEach((moduleName) => {
-	co(function *() {
-		// const moduleName = 'ftc-share';
-		const targetUrls = buildUrls(moduleName);
-		const moduleData = {
-			moduleName: moduleName,
-			keywords: moduleName,
-			repoHomeUrl: repoHomeUrl(moduleName),
-			isStable: true,
-		}
-		console.log(targetUrls);
-
-		const options = targetUrls.map(requestOptions);
-
-		var requestData = yield Promise.all(options.map(request));
-		var [contentBower, contentOrigami, refTags] = requestData.map(JSON.parse);
-		const bower = decodeContent(contentBower);
-		const origami = decodeContent(contentOrigami);
-
-		const extracted = extractBower(bower);
-
-		const versions = getVersions(refTags);
-
-
-		const latest = getLatestStable(versions);
-		moduleData.tagName = latest.tagName;
-
-		console.log('requesting: ', latest.tagUrl);
-		const latestVersionData = yield request(requestOptions(latest.tagUrl));
-
-		const datetimeCreated = JSON.parse(latestVersionData).tagger.date;
-		moduleData.datetimeCreated = datetimeCreated;
-
-		moduleData.versions = versions.map((version) => {
-			return version.tagName;
-		});
-
-		Object.assign(moduleData, extracted, origami);
-		console.log(moduleData);
-
-		str(JSON.stringify(moduleData, null, 4))
-			.pipe(fs.createWriteStream(`data/${moduleName}.json`));
-	})
-	.then(() => {
-		console.log('done');
-	}, (e) => {
-		console.error(e.stack);
-	});
-
-});

@@ -1,191 +1,278 @@
 [
     {
-        "moduleName": "ftc-icons",
-        "tagName": "3.0.0",
-        "repoHomeUrl": "https://github.com/FTChinese/ftc-icons",
-        "keywords": [
-            "FTC",
-            "icons"
-        ],
-        "hasCss": true,
-        "hasJs": false,
-        "dependencies": {
-            "o-colors": "^3.5.2",
-            "o-assets": "^3.0.2"
-        },
-        "description": "FTC icons",
-        "origamiType": "module",
-        "origamiCategory": "primitives",
-        "origamiVersion": 1,
-        "support": "https://github.com/FTChinese/ftc-icons/issues",
-        "supportStatus": "active",
-        "demos": [
+        "title": "primitives",
+        "modules": [
             {
-                "name": "sassvg",
-                "template": "demos/src/icons.html",
-                "data": "demos/src/data.json",
-                "description": "Inlined svg code in css"
-            },
-            {
-                "name": "svg-fallback-png",
-                "template": "demos/src/icons.html",
-                "data": "demos/src/data.json",
-                "description": "Use svg image as background with fallback to png"
-            },
-            {
-                "name": "embedded-symbol",
-                "template": "demos/src/icons-embedded.html",
-                "data": "demos/src/data.json",
-                "description": "SVG file as image src"
-            },
-            {
-                "name": "svg-symbol",
-                "template": "demos/src/icons-symbol.html",
-                "data": "demos/src/data.json",
-                "description": "All icons in svg symbol with randomly generated color filled"
+                "moduleName": "ftc-icons",
+                "keywords": "ftc-icons",
+                "repoHomeUrl": "https://github.com/FTChinese/ftc-icons",
+                "isStable": true,
+                "tagName": "3.0.0",
+                "datetimeCreated": "2016-09-22T09:45:19Z",
+                "versions": [
+                    "3.0.0",
+                    "2.0.2",
+                    "2.0.1",
+                    "2.0.0",
+                    "1.5.6",
+                    "1.5.5",
+                    "1.5.4",
+                    "1.5.3",
+                    "1.5.2",
+                    "1.5.1",
+                    "1.5.0",
+                    "1.4.6",
+                    "1.4.5",
+                    "1.4.4",
+                    "1.4.3",
+                    "1.4.2",
+                    "1.4.1",
+                    "1.4.0",
+                    "1.3.0",
+                    "1.2.0",
+                    "1.1.0",
+                    "1.0.4",
+                    "1.0.3",
+                    "1.0.2",
+                    "1.0.1",
+                    "1.0.0"
+                ],
+                "hasCss": true,
+                "hasJs": false,
+                "dependencies": {
+                    "o-colors": "^3.5.2",
+                    "o-assets": "^3.0.2"
+                },
+                "description": "FTC icons",
+                "origamiType": "module",
+                "origamiCategory": "primitives",
+                "origamiVersion": 1,
+                "support": "https://github.com/FTChinese/ftc-icons/issues",
+                "supportStatus": "active",
+                "demos": [
+                    {
+                        "name": "sassvg",
+                        "template": "demos/src/icons.html",
+                        "data": "demos/src/data.json",
+                        "description": "Inlined svg code in css"
+                    },
+                    {
+                        "name": "svg-fallback-png",
+                        "template": "demos/src/icons.html",
+                        "data": "demos/src/data.json",
+                        "description": "Use svg image as background with fallback to png"
+                    },
+                    {
+                        "name": "embedded-symbol",
+                        "template": "demos/src/icons-embedded.html",
+                        "data": "demos/src/data.json",
+                        "description": "SVG file as image src"
+                    },
+                    {
+                        "name": "svg-symbol",
+                        "template": "demos/src/icons-symbol.html",
+                        "data": "demos/src/data.json",
+                        "description": "All icons in svg symbol with randomly generated color filled"
+                    }
+                ]
             }
         ]
     },
     {
-        "moduleName": "ftc-share",
-        "tagName": "2.0.0",
-        "repoHomeUrl": "https://github.com/FTChinese/ftc-share",
-        "keywords": [
-            "FTC",
-            "share"
-        ],
-        "hasCss": true,
-        "hasJs": true,
-        "dependencies": {
-            "ftc-icons": "^2.0.2",
-            "o-colors": "^3.5.2"
-        },
-        "description": "Share module",
-        "origamiType": "module",
-        "origamiCategory": "components",
-        "origamiVersion": 1,
-        "support": "https://github.com/FTChinese/ftc-share/issues",
-        "supportStatus": "active",
-        "browserFeatures": {
-            "required": [
-                "document.queryselector",
-                "Element.prototype.closest"
-            ],
-            "optional": []
-        },
-        "demosDefaults": {
-            "sass": "demos/src/demo.scss",
-            "js": "demos/src/demo.js"
-        },
-        "demos": [
+        "title": "components",
+        "modules": [
             {
-                "name": "share",
-                "template": "demos/src/share.html",
-                "data": "demos/src/data.json",
-                "description": "default theme"
+                "moduleName": "ftc-share",
+                "keywords": "ftc-share",
+                "repoHomeUrl": "https://github.com/FTChinese/ftc-share",
+                "isStable": true,
+                "tagName": "2.0.0",
+                "datetimeCreated": "2016-09-19T07:53:02Z",
+                "versions": [
+                    "2.0.0",
+                    "1.1.0",
+                    "1.0.6",
+                    "1.0.5",
+                    "1.0.4",
+                    "1.0.3",
+                    "1.0.2",
+                    "1.0.1",
+                    "1.0.0",
+                    "0.2.3",
+                    "0.2.2",
+                    "0.2.1",
+                    "0.2.0",
+                    "0.1.8",
+                    "0.1.7",
+                    "0.1.6",
+                    "0.1.5",
+                    "0.1.4",
+                    "0.1.3",
+                    "0.1.2",
+                    "0.1.1",
+                    "0.1.0",
+                    "0.0.7",
+                    "0.0.6",
+                    "0.0.5",
+                    "0.0.4",
+                    "0.0.3",
+                    "0.0.2",
+                    "0.0.1"
+                ],
+                "hasCss": true,
+                "hasJs": true,
+                "dependencies": {
+                    "ftc-icons": "^2.0.2",
+                    "o-colors": "^3.5.2"
+                },
+                "description": "Share module",
+                "origamiType": "module",
+                "origamiCategory": "components",
+                "origamiVersion": 1,
+                "support": "https://github.com/FTChinese/ftc-share/issues",
+                "supportStatus": "active",
+                "browserFeatures": {
+                    "required": [
+                        "document.queryselector",
+                        "Element.prototype.closest"
+                    ],
+                    "optional": []
+                },
+                "demosDefaults": {
+                    "sass": "demos/src/demo.scss",
+                    "js": "demos/src/demo.js"
+                },
+                "demos": [
+                    {
+                        "name": "share",
+                        "template": "demos/src/share.html",
+                        "data": "demos/src/data.json",
+                        "description": "default theme"
+                    },
+                    {
+                        "name": "share-dark",
+                        "template": "demos/src/share-js.html",
+                        "theme": "theme-dark",
+                        "data": "demos/src/data.json",
+                        "description": "dark theme"
+                    },
+                    {
+                        "name": "share-light",
+                        "template": "demos/src/share-js.html",
+                        "theme": "theme-light",
+                        "data": "demos/src/data.json",
+                        "description": "light theme"
+                    },
+                    {
+                        "name": "share-tint",
+                        "template": "demos/src/share-js.html",
+                        "data": "demos/src/data.json",
+                        "description": "tint theme",
+                        "theme": "theme-tint"
+                    },
+                    {
+                        "name": "svg-symbol",
+                        "template": "demos/src/share.html",
+                        "data": "demos/src/data.json",
+                        "description": "use svg symbol as icon image",
+                        "svgSymbol": true,
+                        "theme": "symbol-default"
+                    },
+                    {
+                        "name": "svg-symbol-light",
+                        "template": "demos/src/share.html",
+                        "data": "demos/src/data.json",
+                        "description": "use svg symbol as icon image",
+                        "svgSymbol": true,
+                        "theme": "symbol-light"
+                    },
+                    {
+                        "name": "svg-symbol-dark",
+                        "template": "demos/src/share.html",
+                        "data": "demos/src/data.json",
+                        "description": "use svg symbol as icon image",
+                        "svgSymbol": true,
+                        "theme": "symbol-dark"
+                    },
+                    {
+                        "name": "svg-symbol-tint",
+                        "template": "demos/src/share.html",
+                        "data": "demos/src/data.json",
+                        "description": "use svg symbol as icon image",
+                        "svgSymbol": true,
+                        "theme": "symbol-tint"
+                    }
+                ]
             },
             {
-                "name": "share-dark",
-                "template": "demos/src/share-js.html",
-                "theme": "theme-dark",
-                "data": "demos/src/data.json",
-                "description": "dark theme"
-            },
-            {
-                "name": "share-light",
-                "template": "demos/src/share-js.html",
-                "theme": "theme-light",
-                "data": "demos/src/data.json",
-                "description": "light theme"
-            },
-            {
-                "name": "share-tint",
-                "template": "demos/src/share-js.html",
-                "theme": "theme-tint",
-                "data": "demos/src/data.json",
-                "description": "tint theme"
-            },
-            {
-                "name": "svg-symbol",
-                "template": "demos/src/share.html",
-                "svgSymbol": true,
-                "theme": "symbol-default",
-                "data": "demos/src/data.json",
-                "description": "use svg symbol as icon image"
-            },
-            {
-                "name": "svg-symbol-light",
-                "template": "demos/src/share.html",
-                "svgSymbol": true,
-                "theme": "symbol-light",
-                "data": "demos/src/data.json",
-                "description": "use svg symbol as icon image"
-            },
-            {
-                "name": "svg-symbol-dark",
-                "template": "demos/src/share.html",
-                "svgSymbol": true,
-                "theme": "symbol-dark",
-                "data": "demos/src/data.json",
-                "description": "use svg symbol as icon image"
-            },
-            {
-                "name": "svg-symbol-tint",
-                "template": "demos/src/share.html",
-                "svgSymbol": true,
-                "theme": "symbol-tint",
-                "data": "demos/src/data.json",
-                "description": "use svg symbol as icon image"
+                "moduleName": "ftc-footer",
+                "keywords": "ftc-footer",
+                "repoHomeUrl": "https://github.com/FTChinese/ftc-footer",
+                "isStable": true,
+                "tagName": "0.0.3",
+                "datetimeCreated": "2016-09-19T09:48:46Z",
+                "versions": [
+                    "0.0.3",
+                    "0.0.2",
+                    "0.0.1"
+                ],
+                "hasCss": true,
+                "hasJs": false,
+                "dependencies": {
+                    "o-colors": "^3.5.2",
+                    "o-grid": "^4.2.2"
+                },
+                "description": "Responsive FTC page footer",
+                "origamiType": "module",
+                "origamiCategory": "components",
+                "origamiVersion": 1,
+                "support": "https://github.com/FTChinese/ftc-footer/issues",
+                "supportStatus": "active",
+                "browserFeatures": {
+                    "required": [
+                        "html5"
+                    ]
+                },
+                "demosDefaults": {
+                    "sass": "demos/src/demo.scss"
+                },
+                "demos": [
+                    {
+                        "name": "footer",
+                        "template": "demos/src/footer.html",
+                        "data": "lib/data.js",
+                        "description": ""
+                    },
+                    {
+                        "name": "footer-light",
+                        "template": "demos/src/footer-light.html",
+                        "data": "lib/data.js",
+                        "description": ""
+                    },
+                    {
+                        "name": "simple-footer",
+                        "template": "demos/src/simple-footer.html",
+                        "data": "lib/data.js",
+                        "description": ""
+                    }
+                ]
             }
         ]
     },
     {
-        "moduleName": "ftc-footer",
-        "tagName": "0.0.3",
-        "repoHomeUrl": "https://github.com/FTChinese/ftc-footer",
-        "keywords": [
-            "FTC",
-            "footer"
-        ],
-        "hasCss": true,
-        "hasJs": false,
-        "dependencies": {
-            "o-colors": "^3.5.2",
-            "o-grid": "^4.2.2"
-        },
-        "description": "Responsive FTC page footer",
-        "origamiType": "module",
-        "origamiCategory": "components",
-        "origamiVersion": 1,
-        "support": "https://github.com/FTChinese/ftc-footer/issues",
-        "supportStatus": "active",
-        "browserFeatures": {
-            "required": [
-                "html5"
-            ]
-        },
-        "demosDefaults": {
-            "sass": "demos/src/demo.scss"
-        },
-        "demos": [
-            {
-                "name": "footer",
-                "template": "demos/src/footer.html",
-                "data": "lib/data.js",
-                "description": ""
-            },
-            {
-                "name": "footer-light",
-                "template": "demos/src/footer-light.html",
-                "data": "lib/data.js",
-                "description": ""
-            },
-            {
-                "name": "simple-footer",
-                "template": "demos/src/simple-footer.html",
-                "data": "lib/data.js",
-                "description": ""
-            }
-        ]
+        "title": "layouts",
+        "modules": []
+    },
+    {
+        "title": "utilities",
+        "modules": []
+    },
+    {
+        "title": "imagesets",
+        "modules": []
+    },
+    {
+        "title": "uncategorised",
+        "modules": []
     }
 ]
