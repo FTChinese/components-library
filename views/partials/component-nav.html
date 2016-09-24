@@ -1,21 +1,16 @@
 <nav class="sidebar sidebar--has-scroll u-hide-on-mobile">
 	<ul class="component-navigation__list">
-		<li class="component-navigation__item">
-			<h3 class="component-navigation__title">Conponent List</h3>
-		</li>
-		
-		<li class="component-navigation__item">
-			<a href="ftc-icons.html">ftc-icons</a>
-		</li>
-		
-		<li class="component-navigation__item">
-			<a href="ftc-share.html">ftc-share</a>
-		</li>
-		
-		<li class="component-navigation__item">
-			<a href="ftc-footer.html">ftc-footer</a>
-		</li>
-		
-	</ul>	
+		{% for group in components %}
+			{% if group.modules | length %}
+				<li class="component-navigation__item">
+					<h3 class="component-navigation__title">{{group.title}}</h3>
+				</li>
+				{% for component in group.modules %}
+					<li class="component-navigation__item js-searchable type-{{component.origamiType}} support-{{component.supportStatus}}">
+						<a data-name="{{component.moduleName}}" data-keywords="{{component.kekeywords}}" href="{{ component.moduleName }}.html">{{ component.moduleName }}</a>
+					</li>
+				{% endfor %}
+			{% endif %}
+		{% endfor %}
+	</ul>
 </nav>
-

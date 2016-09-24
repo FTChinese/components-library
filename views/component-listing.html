@@ -4,37 +4,50 @@
 	<div class="component-list__main">
 		<h1>FTC Component Library</h1>
 		<table class="component-list">
-			<thead>
+			<thead class="u-hide-on-mobile">
 				<tr>
 					<th>Component</th><th>Version</th><th>Status</th><th>Updated</th>
 				</tr>
 			</thead>
-			<tbody class="component-group">
-				{% for component in components %}
-				<tr class="component-list__component">
-					<td>
-						<a href="{{component.moduleName}}.html">
-							<span class="component-list__component-name">{{component.moduleName}}</span>
-						</a>
-						{% if component.hasCss %}
-							<span class="label-css">CSS</span>
-						{% endif %}
-						{% if component.hasJs %}
-							<span class="label-js">JS</span>
-						{% endif %}
-					</td>
-					<td class="u-nowrap">
-						<span class="version-number">
-							{{ component.tagName}}
-						</span>
-					</td>
-					<td>
-						<span class="label-{{component.supportStatus}}">{{component.supportStatus | capitalize}}</span>
-					</td>
-					<td class="component-list__component-updated u-nowrap u-hide-on-mobile">
-						<time></time>
-					</td>
-				</tr>
+			<tbody>
+				{% for group in components %}
+					{% if group.modules | length %}
+						<tr class="component-list__group-title js-searchable">
+							<td><h3>{{group.title | capitalize}}</h3></td><td></td><td></td><td></td>
+						</tr>
+
+						{% for component in group.modules %}
+						<tr class="component-list__component js-searchable type-{{components.origamiType}} support-{{component.supportStatus}}">
+							<td>
+								<a href="{{component.moduleName}}.html">
+									<span class="component-list__component-name" data-name="{{component.moduleName}}" data-keywords="{{component.keywords}}">{{component.moduleName}}</span>
+								</a>
+								{% if component.hasCss %}
+									<span class="label-css">CSS</span>
+								{% endif %}
+								{% if component.hasJs %}
+									<span class="label-js">JS</span>
+								{% endif %}
+								<div class="component-list__component-description">
+									{{component.description}}
+								</div>
+							</td>
+							<td class="u-nowrap">
+								<span class="version-number">
+									{{ component.tagName}}
+								</span>
+							</td>
+							<td>
+								<span class="label-{{component.supportStatus}}">{{component.supportStatus | capitalize}}</span>
+							</td>
+							<td class="component-list__component-updated u-nowrap u-hide-on-mobile">
+								{% if component.datetimeCreated %}
+								<time datetime="{{component.datdatetimeCreated}}">{{component.datetimeCreated}}</time>
+								{% endif %}
+							</td>
+						</tr>
+						{% endfor %}
+					{% endif %}
 				{% endfor %}
 			</tbody>
 		</table>

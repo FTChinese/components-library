@@ -19,6 +19,13 @@ const webpackConfig = require('./webpack.config.js');
 
 const components = require('./data/components.json');
 
+const modules = [];
+components.forEach((group) => {
+  group.modules.forEach((module) => {
+    modules.push(module);
+  });
+});
+
 const projectName = 'components';
 process.env.NODE_ENV = 'dev';
 
@@ -42,33 +49,23 @@ gulp.task('html', () => {
         if (err) console.log(err);
       });
     }
-// get all components data
-    // const components = yield helper.readJson('data/components.json');
 
-// render `component-listing.html` as homepage. `component-nav.html` as partials.
-    const [listResult, navResult] = yield Promise.all([
-      helper.render('component-listing.html', {components: components}),
-      helper.render('component-nav.html', {components: components})
-    ]);
-
-// put rendered `component-nav.html` as partial to be included.
-// must write the file before executing next step.
-// stream cannot be used here since stream write data asynchronously.
-// writeResult is not usefull. It's `0`, only indicating no problem occurred.
-    const writeResult = yield helper.writeFile('views/partials/component-nav.html', navResult);
+// render `component-listing.html` as index.html
+    const indexPage = yield helper.render('component-listing.html', {components: components});
 
 // write `component-listing` as `index.html`
-    str(listResult)
+    str(indexPage)
       .pipe(fs.createWriteStream('.tmp/index.html'));
 
-    const details = yield Promise.all(components.map(function(context, i) {
-      return helper.render('component-detail.html', context);
+// render all module's detail page
+    const details = yield Promise.all(modules.map(function(module) {
+      return helper.render('component-detail.html', Object.assign(module, {components: components}));
     }));
 
 // output each detail page.
-    components.forEach(function(component, i) {
+    modules.forEach(function(module, i) {
       str(details[i])
-        .pipe(fs.createWriteStream('.tmp/' + component.moduleName + '.html'));
+        .pipe(fs.createWriteStream('.tmp/' + module.moduleName + '.html'));
     });
   })
   .then(function(){
@@ -141,7 +138,7 @@ gulp.task('clean', function() {
   return del(['.tmp/**']);
 });
 
-gulp.task('serve', 
+gulp.task('serve',
   gulp.parallel(
     'html', 'styles', 'api', 'webpack',
     function serve() {
