@@ -11,112 +11,139 @@ const helper = require('./helper');
 const moduleNames = require('./module-list.json');
 
 const manifests = [
-// `https://raw.githubusercontent.com/FTChinese/${ftc-share}/master/${origami}.json`
-// const baseUrl = 'https://raw.githubusercontent.com/FTChinese';
-// `https://api.github.com/repos/FTChinese/${moduleName}/tags`
-// const tagsUrl = 'https://api.github.com/repos/FTChinese/ftc-share/tags'
-
-	'package',
 	'bower',
 	'origami'
 ];
 
+// const contents = `https://api.github.com/repos/FTChinese/${module}/contents/${manifest}.json`
+
+// [refTag.ref]
+// reverse array
+// replace `refs/tags/v`
+// check `alpha`, `beta`
+// refTag.object.url -> tagger.date
+// const refTags = `https://api.github.com/repos/FTChinese/${module}/git/refs/tags`;
 
 function buildUrls(module) {
-	const targetUrls = manifests.map(function(package) {
-		return `https://raw.githubusercontent.com/FTChinese/${module}/master/${package}.json`;
+	const targetUrls = manifests.map(function(manifest) {
+		return `https://api.github.com/repos/FTChinese/${module}/contents/${manifest}.json`;
+	});
 
-	targetUrls.push(`https://api.github.com/repos/FTChinese/${module}/tags`);
-
+	targetUrls.push(`https://api.github.com/repos/FTChinese/${module}/git/refs/tags`);
 	return targetUrls;
 }
 
-function buildPath() {
-	return moduleNames.map(function(moduleName) {
-		return path.resolve(__dirname, 'data', moduleName + '.json');
-	});
+function repoHomeUrl(module) {
+	return `https://github.com/FTChinese/${module}`;
 }
 
-function buildData(npm, bower, origami, tags) {
-	var context = {};
-
-	context.moduleName = npm.name;
-	context.tagName = npm.version;
-	context.versions = tags.map((tag) => {
-		return tag.name
-	});
-
-	context.repoHomeUrl = npm.homepage;
-	context.keywords = npm.keywords;
-	context.hasCss = bower.main.indexOf('main.scss') !== -1;
-	context.hasJs = bower.main.indexOf('main.js') !== -1;
-
-	if (bower.dependencies) {
-		context.dependencies = bower.dependencies;
-	}
-	context = Object.assign(context, origami);
-
-	return context;
-}
-
-co(function *() {
-	const destDir = '.tmp';
-	const components = [];
-
-    if (!isThere(destDir)) {
-      mkdirp(destDir, (err) => {
-        if (err) console.log(err);
-      });
-    }
-
-	for (let i = 0; i < moduleNames.length; i++) {
-		const moduleName = moduleNames[i];
-		const targetUrls = buildUrls(moduleName);
-		console.log('fetching url:');
-		console.log(targetUrls);
-// https://developer.github.com/v3/#user-agent-required
-// All API requests MUST include a valid User-Agent header.
-// Requests with no User-Agent header will be rejected.
-// We request that you use your GitHub username,
-// or the name of your application, for the User-Agent header value.
-// This allows us to contact you if there are problems.
-		const options = targetUrls.map((url) => {
-			return {
-				url: url,
-				headers: {
-					'User-Agent': 'ftc-component'
-				}
-			}
-		});
-		console.log(options);
-
-		try {
-			const req = urls.map((url) => {
-				return fetchJson(url);
-			});
-			console.log(req);
-			const result = yield fetchJson('https://api.github.com/repos/FTChinese/ftc-footer/tags');
-			console.log(result);
-
-			var requestData = yield Promise.all(options.map(request));
-			requestData = requestData.map(JSON.parse);
-			console.log(requestData);
-
-			const context = buildData(npm, bower, origami);
-			console.log(context);
-
-			// const context = buildData(npm, bower, origami, tags);
-			// // console.log(context);
-
-			// components.push(context);
-
-			// str(JSON.stringify(context, null, 4))
-			// 	.pipe(fs.createWriteStream(`data/${moduleName}.json`));
-
-		} catch (err) {
-			console.log(err.stack);
+function requestOptions(url) {
+	return {
+		url: url,
+		headers: {
+			'User-Agent': 'ftc-component'
 		}
 	}
-	str(JSON.stringify(components, null, 4))
-		.pipe(fs.createWriteStream('data/components.json'));
+}
+
+function extractBower(bower) {
+	var obj = {};
+
+	obj.hasCss = bower.main.indexOf('main.scss') !== -1;
+	obj.hasJs = bower.main.indexOf('main.js') !== -1;
+
+	if (bower.dependencies) {
+		obj.dependencies = bower.dependencies;
+	}
+	return obj;
+}
+
+function decodeContent(data) {
+	const buf = Buffer.from(data.content, data.encoding);
+	return JSON.parse(buf.toString());
+}
+
+function stripTagName(ref) {
+	var tmp = ref.split('/');
+  tmp = tmp[tmp.length - 1].replace('v', '');
+	return tmp;
+}
+
+function getVersions(refTags) {
+	return refTags.map((tag) => {
+		return {
+			tagName: stripTagName(tag.ref),
+			type: '',
+			isValid: true,
+			url: tag.object.url
+		};
+	}).reverse();
+}
+
+function getLatestStable(versions) {
+	var tagName = '';
+	var tagUrl = '';
+	for (let i = 0; i < versions.length; i++) {
+		const currentVersion = versions[i];
+		if (!currentVersion.url.match(/alpha|beta/i)) {
+			tagName = currentVersion.tagName;
+			tagUrl = currentVersion.url;
+			break;
+		}
+	}
+	return {
+		tagName: tagName,
+		tagUrl: tagUrl
+	}
+}
+
+moduleNames.forEach((moduleName) => {
+	co(function *() {
+		// const moduleName = 'ftc-share';
+		const targetUrls = buildUrls(moduleName);
+		const moduleData = {
+			moduleName: moduleName,
+			keywords: moduleName,
+			repoHomeUrl: repoHomeUrl(moduleName),
+			isStable: true,
+		}
+		console.log(targetUrls);
+
+		const options = targetUrls.map(requestOptions);
+
+		var requestData = yield Promise.all(options.map(request));
+		var [contentBower, contentOrigami, refTags] = requestData.map(JSON.parse);
+		const bower = decodeContent(contentBower);
+		const origami = decodeContent(contentOrigami);
+
+		const extracted = extractBower(bower);
+
+		const versions = getVersions(refTags);
+
+
+		const latest = getLatestStable(versions);
+		moduleData.tagName = latest.tagName;
+
+		console.log('requesting: ', latest.tagUrl);
+		const latestVersionData = yield request(requestOptions(latest.tagUrl));
+
+		const datetimeCreated = JSON.parse(latestVersionData).tagger.date;
+		moduleData.datetimeCreated = datetimeCreated;
+
+		moduleData.versions = versions.map((version) => {
+			return version.tagName;
+		});
+
+		Object.assign(moduleData, extracted, origami);
+		console.log(moduleData);
+
+		str(JSON.stringify(moduleData, null, 4))
+			.pipe(fs.createWriteStream(`data/${moduleName}.json`));
+	})
+	.then(() => {
+		console.log('done');
+	}, (e) => {
+		console.error(e.stack);
+	});
+
 });

@@ -1,10 +1,14 @@
 {
     "moduleName": "ftc-footer",
-    "tagName": "0.0.3",
+    "keywords": "ftc-footer",
     "repoHomeUrl": "https://github.com/FTChinese/ftc-footer",
-    "keywords": [
-        "FTC",
-        "footer"
+    "isStable": true,
+    "tagName": "0.0.3",
+    "datetimeCreated": "2016-09-19T09:48:46Z",
+    "versions": [
+        "0.0.3",
+        "0.0.2",
+        "0.0.1"
     ],
     "hasCss": true,
     "hasJs": false,
