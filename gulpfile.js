@@ -161,7 +161,8 @@ gulp.task('serve',
 
 gulp.task('build', gulp.series('prod', 'clean', gulp.parallel('html', 'styles', 'webpack'), 'dev'));
 
-const deployDir = '../ft-interact/'
+const deployDir = '../ft-interact/';
+
 gulp.task('deploy:assets', () => {
   const DEST = path.resolve(__dirname, deployDir, projectName);
   return gulp.src('.tmp/**/*')
@@ -170,6 +171,7 @@ gulp.task('deploy:assets', () => {
 
 gulp.task('deploy:api', () => {
   const DEST = path.resolve(__dirname, deployDir, 'api');
+  console.log(`Copy api to ${DEST}`);
   return gulp.src('api/**')
     .pipe(gulp.dest(DEST));
 });
