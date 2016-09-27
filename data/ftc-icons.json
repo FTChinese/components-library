@@ -3,9 +3,10 @@
     "keywords": "ftc-icons",
     "repoHomeUrl": "https://github.com/FTChinese/ftc-icons",
     "isStable": true,
-    "tagName": "3.0.0",
-    "datetimeCreated": "2016-09-22T09:45:19Z",
+    "tagName": "3.1.0",
+    "datetimeCreated": "2016-09-27T03:58:49Z",
     "versions": [
+        "3.1.0",
         "3.0.0",
         "2.0.2",
         "2.0.1",
@@ -46,12 +47,6 @@
     "support": "https://github.com/FTChinese/ftc-icons/issues",
     "supportStatus": "active",
     "demos": [
-        {
-            "name": "sassvg",
-            "template": "demos/src/icons.html",
-            "data": "demos/src/data.json",
-            "description": "Inlined svg code in css"
-        },
         {
             "name": "svg-fallback-png",
             "template": "demos/src/icons.html",
