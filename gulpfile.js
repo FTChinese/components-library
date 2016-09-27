@@ -188,4 +188,4 @@ gulp.task('deploy:images', () => {
     .pipe(gulp.dest(DEST));
 });
 
-gulp.task('deploy', gulp.parallel('deploy:assets', 'deploy:api', 'deploy:images'));
+gulp.task('deploy', gulp.series('build', gulp.parallel('deploy:assets', 'deploy:api', 'deploy:images')));
