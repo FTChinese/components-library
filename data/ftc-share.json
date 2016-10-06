@@ -3,9 +3,10 @@
     "keywords": "ftc-share",
     "repoHomeUrl": "https://github.com/FTChinese/ftc-share",
     "isStable": true,
-    "tagName": "2.0.0",
-    "datetimeCreated": "2016-09-19T07:53:02Z",
+    "tagName": "2.1.0",
+    "datetimeCreated": "2016-10-06T10:52:55Z",
     "versions": [
+        "2.1.0",
         "2.0.0",
         "1.1.0",
         "1.0.6",
@@ -39,8 +40,8 @@
     "hasCss": true,
     "hasJs": true,
     "dependencies": {
-        "ftc-icons": "^2.0.2",
-        "o-colors": "^3.5.2"
+        "o-colors": "^3.5.2",
+        "ftc-social-images": "^0.6.0"
     },
     "description": "Share module",
     "origamiType": "module",
@@ -62,29 +63,34 @@
     "demos": [
         {
             "name": "share",
-            "template": "demos/src/share.html",
+            "template": "demos/src/share-js.html",
             "data": "demos/src/data.json",
-            "description": "default theme"
+            "description": "default theme",
+            "svgSymbol": false,
+            "theme": "theme-default"
         },
         {
             "name": "share-dark",
             "template": "demos/src/share-js.html",
-            "theme": "theme-dark",
             "data": "demos/src/data.json",
-            "description": "dark theme"
+            "description": "dark theme",
+            "svgSymbol": false,
+            "theme": "theme-dark"
         },
         {
             "name": "share-light",
             "template": "demos/src/share-js.html",
-            "theme": "theme-light",
             "data": "demos/src/data.json",
-            "description": "light theme"
+            "description": "light theme",
+            "svgSymbol": false,
+            "theme": "theme-light"
         },
         {
             "name": "share-tint",
             "template": "demos/src/share-js.html",
             "data": "demos/src/data.json",
             "description": "tint theme",
+            "svgSymbol": false,
             "theme": "theme-tint"
         },
         {

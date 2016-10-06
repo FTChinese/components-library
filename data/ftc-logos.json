@@ -1,0 +1,36 @@
+{
+    "moduleName": "ftc-logos",
+    "keywords": "ftc-logos",
+    "repoHomeUrl": "https://github.com/FTChinese/ftc-logos",
+    "isStable": true,
+    "tagName": "0.1.0",
+    "datetimeCreated": "2016-10-06T02:09:52Z",
+    "versions": [
+        "0.1.0"
+    ],
+    "hasCss": true,
+    "hasJs": false,
+    "dependencies": {
+        "o-assets": "^3.0.2"
+    },
+    "description": "FTC logos",
+    "origamiType": "module",
+    "origamiCategory": "primitives",
+    "origamiVersion": 1,
+    "support": "https://github.com/FTChinese/ftc-logos/issues",
+    "supportStatus": "active",
+    "demos": [
+        {
+            "name": "background",
+            "template": "demos/src/logos.html",
+            "data": "demos/src/data.json",
+            "description": "Used on light theme"
+        },
+        {
+            "name": "img-src",
+            "template": "demos/src/logos-img.html",
+            "data": "demos/src/data.json",
+            "description": "Used on dark theme"
+        }
+    ]
+}

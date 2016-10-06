@@ -1,11 +1,16 @@
 {
-    "moduleName": "social-images",
-    "keywords": "social-images",
-    "repoHomeUrl": "https://github.com/FTChinese/social-images",
+    "moduleName": "ftc-social-images",
+    "keywords": "ftc-social-images",
+    "repoHomeUrl": "https://github.com/FTChinese/ftc-social-images",
     "isStable": true,
-    "tagName": "0.1.0",
-    "datetimeCreated": "2016-09-28T01:14:11Z",
+    "tagName": "0.6.0",
+    "datetimeCreated": "2016-10-06T10:44:26Z",
     "versions": [
+        "0.6.0",
+        "0.5.0",
+        "0.4.0",
+        "0.3.0",
+        "0.2.0",
         "0.1.0"
     ],
     "hasCss": true,
@@ -18,7 +23,7 @@
     "origamiType": "module",
     "origamiCategory": "primitives",
     "origamiVersion": 1,
-    "support": "https://github.com/FTChinese/social-images/issues",
+    "support": "https://github.com/FTChinese/ftc-social-images/issues",
     "supportStatus": "active",
     "demos": [
         {
