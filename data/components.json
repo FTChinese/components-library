@@ -7,9 +7,10 @@
                 "keywords": "ftc-logos",
                 "repoHomeUrl": "https://github.com/FTChinese/ftc-logos",
                 "isStable": true,
-                "tagName": "0.1.0",
-                "datetimeCreated": "2016-10-06T02:09:52Z",
+                "tagName": "0.2.0",
+                "datetimeCreated": "2016-10-08T02:38:59Z",
                 "versions": [
+                    "0.2.0",
                     "0.1.0"
                 ],
                 "hasCss": true,
