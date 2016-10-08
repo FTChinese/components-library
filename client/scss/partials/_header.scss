@@ -1,0 +1,67 @@
+.o-header-services {
+  background-color: #1d1d1d;
+  h1 {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.o-header-services__container {
+	max-width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 240px;
+  padding-left: 20px;
+  padding-right: 20px;
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+.o-header-services__top {
+	font-size: 17px;
+  font-weight: 400;
+  background-color: #1d1d1d;
+  color: #fff;
+  overflow: hidden;
+  display: block;
+}
+
+.o-header-services__product-name {
+    line-height: 28px;
+    font-size: 28px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    display: inline;
+}
+
+.o-header-services__product-name a {
+	color: #fff;
+	text-decoration: none;
+}
+
+.o-header-services__ftlogo {
+  width: 55px;
+  height: 55px;
+  float: left;
+  @include oLogosGetLogo('brand-square', $apply-base-style:false);
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.o-header-services__title {
+    margin: 3px 0;
+    padding: 10px 10px;
+    display: inline-block;
+    float: left;
+}
