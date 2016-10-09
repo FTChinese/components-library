@@ -1,0 +1,30 @@
+{
+    "moduleName": "ftc-toggle",
+    "keywords": "ftc-toggle",
+    "repoHomeUrl": "https://github.com/FTChinese/ftc-toggle",
+    "isStable": true,
+    "tagName": "0.1.0",
+    "datetimeCreated": "2016-10-09T07:46:48Z",
+    "versions": [
+        "0.1.0"
+    ],
+    "hasCss": false,
+    "hasJs": true,
+    "description": "Accessible toggles",
+    "origamiType": "module",
+    "origamiCategory": "components",
+    "origamiVersion": 1,
+    "support": "https://github.com/FTChinese/ftc-toggle/issues",
+    "supportStatus": "active",
+    "demosDefaults": {
+        "js": "demos/src/demo.js"
+    },
+    "demos": [
+        {
+            "name": "toggles",
+            "template": "demos/src/demo.html",
+            "expanded": true,
+            "description": ""
+        }
+    ]
+}
