@@ -3,9 +3,11 @@
     "keywords": "ftc-icons",
     "repoHomeUrl": "https://github.com/FTChinese/ftc-icons",
     "isStable": true,
-    "tagName": "3.1.0",
-    "datetimeCreated": "2016-09-27T03:58:49Z",
+    "tagName": "3.3.0",
+    "datetimeCreated": "2016-10-10T09:33:26Z",
     "versions": [
+        "3.3.0",
+        "3.2.0",
         "3.1.0",
         "3.0.0",
         "2.0.2",

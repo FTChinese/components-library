@@ -45,9 +45,11 @@
                 "keywords": "ftc-icons",
                 "repoHomeUrl": "https://github.com/FTChinese/ftc-icons",
                 "isStable": true,
-                "tagName": "3.1.0",
-                "datetimeCreated": "2016-09-27T03:58:49Z",
+                "tagName": "3.3.0",
+                "datetimeCreated": "2016-10-10T09:33:26Z",
                 "versions": [
+                    "3.3.0",
+                    "3.2.0",
                     "3.1.0",
                     "3.0.0",
                     "2.0.2",
@@ -317,6 +319,41 @@
                         "name": "toggles",
                         "template": "demos/src/demo.html",
                         "expanded": true,
+                        "description": ""
+                    }
+                ]
+            },
+            {
+                "moduleName": "ftc-sticky",
+                "keywords": "ftc-sticky",
+                "repoHomeUrl": "https://github.com/FTChinese/ftc-sticky",
+                "isStable": true,
+                "tagName": "0.1.2",
+                "datetimeCreated": "2016-10-16T10:14:06Z",
+                "versions": [
+                    "0.1.2",
+                    "0.1.1",
+                    "0.1.0",
+                    "0.0.4",
+                    "0.0.3",
+                    "0.0.2",
+                    "0.0.1"
+                ],
+                "hasCss": true,
+                "hasJs": true,
+                "description": "Fix element on scroll",
+                "origamiType": "module",
+                "origamiCategory": "components",
+                "origamiVersion": 1,
+                "support": "https://github.com/FTChinese/ftc-sticky/issues",
+                "supportStatus": "active",
+                "demosDefaults": {
+                    "js": "demos/src/demo.js"
+                },
+                "demos": [
+                    {
+                        "name": "sticky",
+                        "template": "demos/src/demo.html",
                         "description": ""
                     }
                 ]
