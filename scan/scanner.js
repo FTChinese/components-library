@@ -1,10 +1,10 @@
-const fs = require('fs');
+const fs = require('mz/fs');
 const path = require('path');
 const url = require('url');
 const request = require('request-promise-native');
+const got = require('got');
 const co = require('co');
 const mkdirp = require('mkdirp');
-const str = require('string-to-stream');
 const minimist = require('minimist');
 const argv = minimist(process.argv.slice(2), {
   string: ['input'],
@@ -51,12 +51,24 @@ moduleNames.forEach((moduleName) => {
 		});
 
 		// Execute `request`
-		var response = yield Promise.all(options.map(option => {
-			console.log(`Requesting ${option.url}`);
-			return request(option);
+		// var response = yield Promise.all(options.map(option => {
+		// 	console.log(`Requesting ${option.url}`);
+		// 	return request(option);
+		// }));
+
+		var response = yield Promise.all(targetUrls.map(url => {
+			return got(url, {
+				json: true,
+				headers: {
+					'User-Agent': 'ftc-component'
+				}
+			});
 		}));
+
 		// Get data from 3 urls
-		var [contentBower, contentOrigami, refTags] = response.map(JSON.parse);
+		var [contentBower, contentOrigami, refTags] = response.map(res => {
+			return response.body
+		});
 
 		const bower = decodeContent(contentBower);
 		const origami = decodeContent(contentOrigami);
@@ -80,9 +92,15 @@ moduleNames.forEach((moduleName) => {
   }
 }
 */
-		const latestVersionData = yield request(buildOpts(latest.tagUrl));
+		// const latestVersionData = yield request(buildOpts(latest.tagUrl));
+		const latestVersionData = yield got(latest.tagUrl, {
+			json: true,
+			headers: {
+				'User-Agent': 'ftc-component'
+			}
+		});
 
-		const datetimeCreated = JSON.parse(latestVersionData).tagger.date;
+		const datetimeCreated = latestVersionData.body.tagger.date;
 		moduleData.datetimeCreated = datetimeCreated;
 
 		moduleData.versions = versions.map((version) => {
@@ -91,13 +109,12 @@ moduleNames.forEach((moduleName) => {
 
 		Object.assign(moduleData, extracted, origami);
 
-		str(JSON.stringify(moduleData, null, 4))
-			.pipe(fs.createWriteStream(`data/${moduleName}.json`));
+		yield fs.writeFile(`data/${moduleName}.json`, JSON.stringify(moduleData, null, 4), 'utf8');
 	})
 	.then(() => {
 		console.log('done');
 	}, (e) => {
-		console.error(e.stack);
+		console.error(e);
 	});
 
 });
