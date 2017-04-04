@@ -1,37 +1,38 @@
 const pify = require('pify');
-const fs = require('fs-jetpack');
 const path = require('path');
+const fs = require('fs-jetpack');
 const loadJsonFile = require('load-json-file');
 const inline = pify(require('inline-source'));
-const rollup = require('rollup').rollup;
-const bowerResolve = require('rollup-plugin-bower-resolve');
-const buble = require('rollup-plugin-buble');
-let cache;
+const nunjucks = require('nunjucks');
+nunjucks.configure(process.cwd(), {
+  noCache: true,
+  watch: false
+});
+const render = pify(nunjucks.render);
+
+const del = require('del');
 const browserSync = require('browser-sync').create();
 const cssnext = require('postcss-cssnext');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 
-const render = require('./util/render.js');
-const publicDir = process.env.PUBLIC_DIR || 'public';
-
-const components = require('./data/components.json');
-
-const modules = [];
-components.forEach((group) => {
-  group.modules.forEach((module) => {
-    modules.push(module);
-  });
-});
-
-const projectName = 'components';
+const rollup = require('rollup').rollup;
+const bowerResolve = require('rollup-plugin-bower-resolve');
+const buble = require('rollup-plugin-buble');
 let cache;
 
+const publicDir = process.env.PUBLIC_DIR || 'public';
+
+const projectName = 'components-library';
+
+process.env.NODE_ENV = 'development';
+
+// change NODE_ENV between tasks.
 gulp.task('prod', function() {
   return Promise.resolve(process.env.NODE_ENV = 'production');
 });
 
-gulp.task('dev', function(done) {
+gulp.task('dev', function() {
   return Promise.resolve(process.env.NODE_ENV = 'development');
 });
 
