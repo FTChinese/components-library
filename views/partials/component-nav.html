@@ -1,13 +1,13 @@
 <nav class="sidebar sidebar--has-scroll u-hide-on-mobile">
 	<ul class="component-navigation__list">
 		{% for group in components %}
-			{% if group.modules | length %}
+			{% if group.modules %}
 				<li class="component-navigation__item">
 					<h3 class="component-navigation__title">{{group.title}}</h3>
 				</li>
 				{% for component in group.modules %}
-					<li class="component-navigation__item js-searchable type-{{component.origamiType}} support-{{component.supportStatus}}">
-						<a data-name="{{component.moduleName}}" data-keywords="{{component.kekeywords}}" href="{{ component.moduleName }}.html">{{ component.moduleName }}</a>
+					<li class="component-navigation__item js-searchable type-{{component.origami_type}} support-{{component.support_status}}">
+						<a data-name="{{component.module_name}}" data-keywords href="{{ component.module_name }}.html">{{ component.module_name }}</a>
 					</li>
 				{% endfor %}
 			{% endif %}
