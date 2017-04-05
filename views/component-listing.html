@@ -18,7 +18,7 @@
 						{% for component in group.modules %}
 						<tr class="component-list__component js-searchable type-{{components.origami_type}} support-{{component.support_status}}">
 							<td>
-								<a href="{{component.module_ame}}.html">
+								<a href="{{component.module_name}}.html">
 									<span class="component-list__component-name" data-name="{{component.module_name}}" data-keywords>{{component.module_name}}</span>
 								</a>
 								{% if component.has_css %}
