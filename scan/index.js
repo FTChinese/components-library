@@ -1,9 +1,15 @@
 const crawl = require('./crawl.js');
 const categorise = require('./categorise.js');
+const buildPages = require('./build-pages.js');
 
 async function scan() {
-  await crawl();
-  await categorise();
+  try {
+    await crawl();
+    await categorise();
+    await buildPages();
+  } catch(e) {
+    throw e
+  }
 }
 
 if (require.main === module) {

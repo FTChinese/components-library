@@ -62,7 +62,7 @@ async function categorise(sourceDir = endpoints.saveTo) {
     return category;
   });
 
-  await writeJsonFile(`${destDir}/component-listing.json`, groups);
+  await writeJsonFile(`${destDir}/${endpoints.listFileName}.json`, groups);
 }
 
 if (require.main === module) {

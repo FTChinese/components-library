@@ -1,5 +1,6 @@
 module.exports = {
 	saveTo: 'public/data',
+	listFileName: 'component-listing',
 	modules: [
 		"ftc-logos",
 		"ftc-icons",
