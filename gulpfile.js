@@ -1,14 +1,6 @@
 const pify = require('pify');
 const path = require('path');
 const fs = require('fs-jetpack');
-const loadJsonFile = require('load-json-file');
-const inline = pify(require('inline-source'));
-const nunjucks = require('nunjucks');
-nunjucks.configure(process.cwd(), {
-  noCache: true,
-  watch: false
-});
-const render = pify(nunjucks.render);
 
 const del = require('del');
 const browserSync = require('browser-sync').create();
@@ -21,7 +13,11 @@ const bowerResolve = require('rollup-plugin-bower-resolve');
 const buble = require('rollup-plugin-buble');
 let cache;
 
-const publicDir = process.env.PUBLIC_DIR || 'public';
+const buildPages = require('./scan/build-pages.js');
+
+const target = path.resolve(__dirname, '../ft-interact/');
+const deployDir = `${target}/${path.basename(__dirname)}`;
+const demoDir = path.resolve(__dirname, '.tmp');
 
 const projectName = 'components-library';
 
@@ -36,58 +32,22 @@ gulp.task('dev', function() {
   return Promise.resolve(process.env.NODE_ENV = 'development');
 });
 
-function buildPage(template, data) {
-  return render(template, data)
-    .then(html => {
-      if (process.env.NODE_ENV === 'production') {
-        return inline(html, {
-          compress: true,
-          rootpath: path.resolve(process.cwd(), '.tmp')
-        });
-      }    
-      return html;      
-    })
-    .catch(err => {
-      throw err;
-    });
-}
-
 gulp.task('html', () => {
-  return co(function *() {
-    const destDir = '.tmp';
-
-    mkdirp.sync(destDir);
-
-// render `component-listing.html` as index.html
-    const indexPage = yield helper.render('component-listing.html', {components: components});
-
-// write `component-listing` as `index.html`
-    str(indexPage)
-      .pipe(fs.createWriteStream('.tmp/index.html'));
-
-// render all module's detail page
-    const details = yield Promise.all(modules.map(function(module) {
-      return helper.render('component-detail.html', Object.assign(module, {components: components}));
-    }));
-
-// output each detail page.
-    modules.forEach(function(module, i) {
-      str(details[i])
-        .pipe(fs.createWriteStream('.tmp/' + module.moduleName + '.html'));
-    });
-  })
+  return buildPages()
   .then(function(){
     browserSync.reload('*.html');
-  }, function(err) {
-    console.error(err.stack);
+    return Promise.resolve();
+  })
+  .catch(err => {
+    console.log(err);
   });
 });
 
 gulp.task('styles', function styles() {
-  const DEST = '.tmp/styles';
+  const dest = `${demoDir}/styles`;
 
   return gulp.src('client/scss/main.scss')
-    .pipe($.changed(DEST))
+    .pipe($.changed(dest))
     .pipe($.plumber())
     .pipe($.sourcemaps.init({loadMaps:true}))
     .pipe($.sass({
@@ -103,13 +63,13 @@ gulp.task('styles', function styles() {
       })
     ]))
     .pipe($.sourcemaps.write('./'))
-    .pipe(gulp.dest(DEST))
+    .pipe(gulp.dest(dest))
     .pipe(browserSync.stream({once:true}));
 });
 
 gulp.task('scripts', () => {
   return rollup({
-    entry: 'client/main.js',
+    entry: 'client/js/main.js',
     plugins: [
       bowerResolve({
 // Use `module` field for ES6 module if possible        
@@ -134,7 +94,7 @@ gulp.task('scripts', () => {
     cache = bundle;
 
     return bundle.write({
-      dest: `${publicDir}/scripts/main.js`,
+      dest: `${demoDir}/scripts/main.js`,
       format: 'iife',
       sourceMap: true
     });
@@ -148,56 +108,48 @@ gulp.task('scripts', () => {
   });
 });
 
-gulp.task('clean', function() {
-  return del(['.tmp/**']);
-});
-
 gulp.task('serve',
   gulp.parallel(
     'html', 'styles', 'scripts',
     function serve() {
     browserSync.init({
       server: {
-        baseDir: ['.tmp', 'public'],
-        routes: {
-          '/bower_components': 'bower_components'
-        }
+        baseDir: ['.tmp', 'client']
       }
     });
 
-    gulp.watch(['views/**/*.html', 'data/*.json'], gulp.parallel('html'));
+    gulp.watch(['views/**/*.html', 'public/data/*.json'], gulp.parallel('html'));
     gulp.watch('client/**/*.js', gulp.parallel('scripts'));
     gulp.watch('client/scss/**/*.scss', gulp.parallel('styles'));
   })
 );
 
-gulp.task('build', gulp.series('prod', 'clean', 'styles', gulp.parallel('html', 'scripts'), 'dev'));
+gulp.task('build', gulp.parallel('html', 'styles', 'scripts'));
 
-const deployDir = path.resolve(__dirname, '../ft-interact/');
-
+// deploy
 gulp.task('deploy:assets', () => {
-  const dest = `${deployDir}/${projectName}`;
+  console.log(`Deploying to ${deployDir}`);
   return gulp.src('.tmp/**/*')
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(deployDir));
 });
 
 gulp.task('deploy:api', () => {
-  const dest = `${deployDir}/api`;
+  const dest = `${target}/api`;
   console.log(`Copy api to ${dest}`);
   return gulp.src('api/**')
     .pipe(gulp.dest(dest));
 });
 
 gulp.task('deploy:images', () => {
-  const dest = `${deployDir}/images`;
-  return gulp.src('public/images/*.{svg,png,jpg,gif}')
+  console.log(`Deploying images to ${deployDir}`);
+  return gulp.src('client/**/*.{svg,png,jpg,gif}')
     .pipe($.imagemin({
       progressive: true,
       interlaced: true,
       svgoPlugins: [{cleanupIDs: false}],
       verbose: true
     }))
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(deployDir));
 });
 
 gulp.task('deploy', gulp.series('build', gulp.parallel('deploy:assets', 'deploy:api', 'deploy:images')));
