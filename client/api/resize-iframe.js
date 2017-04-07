@@ -1,14 +1,21 @@
+/* Send message to parent to resize the iframe's containing element,
+ * so that container is as larege as `el`.
+ * 
+ */
 function sendResizeToParent(el) {
  if (!parent || !parent.postMessage || window.top === window) {
  	return;
  }
+
+// If el is not defined, use `<html>`.
  el = (el && el instanceof HTMLElement) ? el : document.documentElement;
  
  var msg = {
  	type: 'resize',
- 	url: location.href
+ 	url: location.href,
+	id: window.frameElement.id
  };
-
+// 
  if (el == document.documentElement) {
  	document.body.style.overflow = 'hidden';
  	document.documentElement.style.overflow = 'hidden';
@@ -16,7 +23,10 @@ function sendResizeToParent(el) {
  	msg.width = el.offsetWidth;
  }
  msg.height = el.offsetHeight;
- parent.postMessage(JSON.stringify(msg), '*');
+ 
+ var msgToSend = JSON.stringify(msg);
+ console.log(`Sending message to parent: ${msgToSend}`);
+ parent.postMessage(msgToSend, '*');
 }
 
 function processPostMessage(msg) {
@@ -33,11 +43,14 @@ function processPostMessage(msg) {
 	} catch (e) {
 		return;
 	}
+	console.log(`Message received from child: ${JSON.stringify(data)}`);
 
+// Replace everything before pathname. It doesn't work it parent window and iframe are not on the same host.
+// If they are both on the same host, and used absolute url, the script will not work.
 	data.url = data.url.replace(location.protocol + '\/\/' + location.host, '');
 
 	iframeSelector = 'iframe[src="' + data.url + '"]';
-
+	
 	iframeEl = document.querySelector(iframeSelector);
 
 	if (data.type == 'resize' && iframeEl) {

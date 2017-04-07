@@ -114,7 +114,10 @@ gulp.task('serve',
     function serve() {
     browserSync.init({
       server: {
-        baseDir: ['.tmp', 'client']
+        baseDir: ['.tmp', 'client'],
+        routes: {
+          '/demos': 'public'
+        }
       }
     });
 
@@ -134,9 +137,10 @@ gulp.task('deploy:assets', () => {
 });
 
 gulp.task('deploy:api', () => {
+  const src = 'client/api/**'
   const dest = `${target}/api`;
-  console.log(`Copy api to ${dest}`);
-  return gulp.src('api/**')
+  console.log(`Copy ${src} to ${dest}`);
+  return gulp.src('client/api/**')
     .pipe(gulp.dest(dest));
 });
 
